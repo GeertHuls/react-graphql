@@ -30,12 +30,16 @@ export default class Main extends React.Component {
 	}
 
 	render() {
+		let content = this.state.links.map(link => {
+			return 	<li key={link._id}>
+						<a href={link.url}>{link.title}</a>
+					</li>;
+		});
 		return (
 			<div>
 				<h3>links</h3>
 				<ul>
-					<li>Link...</li>
-					<li>Link...</li>
+					{content}
 				</ul>
 			</div>
 		);
