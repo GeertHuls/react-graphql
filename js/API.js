@@ -1,5 +1,5 @@
 import {get} from "jquery";
-import ServerActions from "../actions/ServerActions";
+import ServerActions from "./actions/ServerActions";
 
 let API = {
 	fetchLinks() {
@@ -8,6 +8,6 @@ let API = {
 			ServerActions.receiveLinks(resp);
 		});
 	}
-}
+};
 
 export default API;
