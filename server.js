@@ -8,7 +8,8 @@ let app = express();
 app.use(express.static('public'));
 
 app.use('/graphql', GraphQLHTTP({
-	schema: schema
+	schema,
+	graphiql: true
 }));
 
 let db;
