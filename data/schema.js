@@ -12,10 +12,12 @@ let data = [
 	{ counter: 44 }
 ];
 
-let counterType = new GraphQLObjectType({
-	name: 'Counter',
+let linkType = new GraphQLObjectType({
+	name: 'Link',
 	fields: () => ({
-		counter: { type: GraphQLInt }
+		_id: { type: GraphQLString },
+		title: { type: GraphQLString },
+		url: { type: GraphQLString }
 	})
 });
 
@@ -24,9 +26,9 @@ let schema = new GraphQLSchema({
 	query: new GraphQLObjectType({
 		name: 'Query',
 		fields: () => ({
-			data: {
-				type: new GraphQLList(counterType),
-				resolve: () => data
+			links: {
+				type: new GraphQLList(linkType),
+				resolve: () => data //TODO: read from Mongodb
 			}
 		})
 	}),
