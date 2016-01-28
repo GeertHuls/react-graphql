@@ -30,7 +30,7 @@ export default class Main extends React.Component {
 	}
 
 	render() {
-		let content = this.state.links.map(link => {
+		let content = this.state.links.slice(0, this.props.limit).map(link => {
 			return 	<li key={link._id}>
 						<a href={link.url}>{link.title}</a>
 					</li>;
@@ -45,3 +45,11 @@ export default class Main extends React.Component {
 		);
 	}
 }
+
+Main.propTypes = {
+	limit: React.PropTypes.number
+};
+
+Main.defaultProps = {
+	limit: 4
+};
