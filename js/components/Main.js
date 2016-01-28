@@ -6,7 +6,7 @@ let _getAppState = () => {
 	return { links: LinkStore.getAll() };
 };
 
-export default class Main extends React.Component {
+class Main extends React.Component {
 
 	static propTypes = {
 		limit: React.PropTypes.number
@@ -48,3 +48,5 @@ export default class Main extends React.Component {
 		);
 	}
 }
+
+export default Main;
