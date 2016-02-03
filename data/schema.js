@@ -7,6 +7,18 @@ import {
 } from 'graphql';
 
 let Schema = (db) => {
+
+	let store = {};
+	let storeType = new GraphQLObjectType({
+			name: 'Store',
+			fields: () => ({
+				links: {
+					type: new GraphQLList(linkType),
+					resolve: () => db.collection("links").find({}).toArray()
+				}
+			})
+		})
+
 	let linkType = new GraphQLObjectType({
 		name: 'Link',
 		fields: () => ({
@@ -15,18 +27,17 @@ let Schema = (db) => {
 			url: { type: GraphQLString }
 		})
 	});
-
+	
 	let schema = new GraphQLSchema({
 		query: new GraphQLObjectType({
 			name: 'Query',
 			fields: () => ({
-				links: {
-					type: new GraphQLList(linkType),
-					 //toArray returns a promise which will be used by graphql
-					resolve: () => db.collection("links").find({}).toArray()
+				store: {
+					type: storeType,
+					resolve: () => store
 				}
 			})
-		}),
+		})
 	});
 
 	return schema;
