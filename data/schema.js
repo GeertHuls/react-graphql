@@ -9,6 +9,7 @@ import {
 } from 'graphql';
 
 import {
+	globalIdField,
 	connectionDefinitions,
 	connectionArgs,
 	connectionFromPromisedArray,
@@ -19,6 +20,7 @@ let Schema = (db) => {
 
 	let store = {};
 	let storeType = new GraphQLObjectType({
+			id: globalIdField("Store"),
 			name: 'Store',
 			fields: () => ({
 				linkConnection: {
@@ -61,11 +63,17 @@ let Schema = (db) => {
 		},
 
 		outputFields: {
-			link: {
-				type: linkType,
+			linkEdge: {
+				type: linkConnection.edgeType,
 				//this is the return value of the mutateAndGetPayload function or more particular,
 				//the mongodb insertOne function
-				resolve: (obj) => obj.ops[0] //the array of all docs inserted
+				resolve: (obj) => ({ node: obj.ops[0]}, cursor: obj.insertedId )
+				//the ops array is an array of all docs inserted,
+				//resolve with a node object because it is an edge
+			},
+			store: { //the link edges connections are rendered under a store in the relay app
+				type: storeType, //so we need store information as well
+				resolve: () => store
 			}
 		},
 
