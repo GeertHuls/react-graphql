@@ -22,9 +22,11 @@ let Schema = (db) => {
 			fields: () => ({
 				linkConnection: {
 					type: linkConnection.connectionType,
-					args: connectionArgs, //First, last, ....
+					args: connectionArgs, //first, last, .... which you can use below:
 					resolve: (_, args) => connectionFromPromisedArray(
-						db.collection("links").find({}).toArray(),
+						db.collection("links").find({}).limit(args.first).toArray(),
+												//eg: linkConnection (first: 2) 
+												//then mongo client will limit to 2
 						args
 					)
 				}
