@@ -8,7 +8,7 @@ class Link extends React.Component {
 
     return (
 		<li>
-			<a href={link.url}>{link.title}</a>
+			<a href={link.url} target="_blank">{link.title}</a>
 		</li>
     );
   }
