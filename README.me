@@ -1,4 +1,4 @@
-# react-graphql
+# React-graphql
 
 Start app using:
 - npm start
@@ -6,3 +6,50 @@ Start app using:
 
 Use webpack to create bundle.js
 - webpack -w -d
+
+# Query example:
+
+```javascript
+query{
+  store {
+	linkConnection (first:5) {
+      	pageInfo {
+          hasNextPage
+        }
+      	edges {
+          cursor
+          node {
+			id
+            title
+            url
+          }
+        }
+      }
+	}
+}
+```
+# Mutaion example:
+```javascript
+mutation CreateLinkMutation($input: CreateLinkInput!) {
+  createLink(input: $input) {
+    clientMutationId,
+    link {
+      id,
+      title,
+      url
+    }
+  }
+}
+```
+
+In conjunction with query variables:
+```javascript
+{
+  "input": {
+  	"clientMutationId": "455",
+    "title": "Test Link2",
+    "url": "test.com"
+  }
+}
+```
+

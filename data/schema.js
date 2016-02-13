@@ -11,7 +11,8 @@ import {
 import {
 	connectionDefinitions,
 	connectionArgs,
-	connectionFromPromisedArray
+	connectionFromPromisedArray,
+	mutationWithClientMutationId
 }from 'graphql-relay';
 
 let Schema = (db) => {
@@ -50,6 +51,29 @@ let Schema = (db) => {
 		nodeType: linkType
 	});
 
+	//A relay mutation has a single input field and a unique mution id as opposed to a graphql mutation
+	let createLinkMutation = mutationWithClientMutationId({
+		name: 'CreateLink',
+
+		inputFields: {
+			title: { type: new GraphQLNonNull(GraphQLString) },
+			url: { type: new GraphQLNonNull(GraphQLString) },
+		},
+
+		outputFields: {
+			link: {
+				type: linkType,
+				//this is the return value of the mutateAndGetPayload function or more particular,
+				//the mongodb insertOne function
+				resolve: (obj) => obj.ops[0] //the array of all docs inserted
+			}
+		},
+
+		mutateAndGetPayload: ({title, url}) => {
+			return db.collection("links").insertOne({title, url}); // this is also a promise
+		}
+	});
+
 	let schema = new GraphQLSchema({
 		query: new GraphQLObjectType({
 			name: 'Query',
@@ -58,6 +82,13 @@ let Schema = (db) => {
 					type: storeType,
 					resolve: () => store
 				}
+			})
+		}),
+	
+		mutation: new GraphQLObjectType({
+			name: 'Mutation',
+			fields: () => ({
+				createLink: createLinkMutation
 			})
 		})
 	});
