@@ -20,9 +20,9 @@ let Schema = (db) => {
 
 	let store = {};
 	let storeType = new GraphQLObjectType({
-			id: globalIdField("Store"),
 			name: 'Store',
 			fields: () => ({
+				id: globalIdField("Store"),
 				linkConnection: {
 					type: linkConnection.connectionType,
 					args: connectionArgs, //first, last, .... which you can use below:

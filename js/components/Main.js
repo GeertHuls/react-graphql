@@ -50,6 +50,8 @@ class Main extends React.Component {
 
 //See docs: https://facebook.github.io/relay/docs/api-reference-relay-container.html
 //Declare the data requirement for this component
+
+//Tutorial link: https://facebook.github.io/relay/docs/tutorial.html
 Main = Relay.createContainer(Main, {
 	initialVariables: {
 		limit: 100
@@ -57,8 +59,9 @@ Main = Relay.createContainer(Main, {
 	fragments: {
 		store: () => Relay.QL`
 			fragment on Store {
+				id,
 				linkConnection(first: $limit) {
-					edges{
+					edges {
 						node {
 							id,
 							${Link.getFragment('link')}
