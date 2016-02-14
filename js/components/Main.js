@@ -11,7 +11,7 @@ class Main extends React.Component {
 	};
 	handleSubmit = (e) => {
 		e.preventDefault();
-		Relay.Store.update(
+		Relay.Store.commitUpdate(
 			new CreateLinkMutation({
 				title: this.refs.newTitle.value,
 				url: this.refs.newUrl.value,
@@ -34,9 +34,11 @@ class Main extends React.Component {
 					<input type="text" placeholder="Url" ref="newUrl" />
 					<button type="submit">Add</button>
 				</form>
-				Showing: <select onChange={this.setLimit}>
-					<option value="5">5</option>
-					<option value="10" selected>10</option>
+				Showing: &nbsp;
+				<select onChange={this.setLimit}
+					defaultValue={this.props.relay.variables.limit} >
+					<option value="100">100</option>
+					<option value="200">200</option>
 				</select>
 				<ul>
 					{content}
@@ -50,7 +52,7 @@ class Main extends React.Component {
 //Declare the data requirement for this component
 Main = Relay.createContainer(Main, {
 	initialVariables: {
-		limit: 10
+		limit: 100
 	},
 	fragments: {
 		store: () => Relay.QL`
