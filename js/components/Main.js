@@ -11,6 +11,7 @@ class Main extends React.Component {
 	};
 	handleSubmit = (e) => {
 		e.preventDefault();
+		//See also: http://mgiroux.me/2016/relays-apply-update-function/
 		Relay.Store.commitUpdate(
 			new CreateLinkMutation({
 				title: this.refs.newTitle.value,
