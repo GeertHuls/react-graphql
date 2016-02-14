@@ -33,23 +33,31 @@ query{
 mutation CreateLinkMutation($input: CreateLinkInput!) {
   createLink(input: $input) {
     clientMutationId,
-    link {
-      id,
-      title,
-      url
+    linkEdge {
+      node{
+        id,
+        title,
+        url
+      },
+      cursor
     }
   }
 }
 ```
 
-In conjunction with query variables:
+In conjunction with query variables: (not working but more or less as illustrated below...)
 ```javascript
 {
   "input": {
-  	"clientMutationId": "455",
-    "title": "Test Link2",
-    "url": "test.com"
+    "clientMutationId": "455",
+    "linkEdge" : {
+      "node": {
+        "title": "Test Link2",
+        "url": "test.com"
+      }
+    }
   }
 }
+
 ```
 The clientMutationId is an identifier for relay to associate the output data coming back from the server with the requested read operation from the mutation.
