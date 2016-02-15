@@ -27,9 +27,11 @@ let Schema = (db) => {
 					type: linkConnection.connectionType,
 					args: connectionArgs, //first, last, .... which you can use below:
 					resolve: (_, args) => connectionFromPromisedArray(
-						db.collection("links").find({}).limit(args.first).toArray(),
-												//eg: linkConnection (first: 2) 
-												//then mongo client will limit to 2
+						db.collection("links").find({})
+						.sort({createdAt: -1})
+						.limit(args.first).toArray(),
+						//eg: linkConnection (first: 2) 
+						//then mongo client will limit to 2
 						args
 					)
 				}
@@ -78,7 +80,12 @@ let Schema = (db) => {
 		},
 
 		mutateAndGetPayload: ({title, url}) => {
-			return db.collection("links").insertOne({title, url}); // this is also a promise
+			return db.collection("links").insertOne({
+				title,
+				url,
+				createdAt: Date.now()
+
+			}); // this is also a promise
 		}
 	});
 
