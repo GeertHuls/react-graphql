@@ -23,6 +23,9 @@ class CreateLinkMutation extends Relay.Mutation {
 		`;
 	}
 
+	//Info: https://github.com/facebook/relay/issues/477
+	//And: http://stackoverflow.com/questions/35197523/not-getting-payload-after-react-relay-nested-mutation
+	//http://blog.pathgather.com/blog/a-beginners-guide-to-relay-mutations
 	getConfigs() {
 		return [{
 			type: 'RANGE_ADD', //use this type to add nodes to the link collection
