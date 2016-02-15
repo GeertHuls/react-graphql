@@ -10,6 +10,8 @@ import {
 
 import {
 	globalIdField,
+	fromGlobalId,
+	nodeDefinitions,
 	connectionDefinitions,
 	connectionArgs,
 	connectionFromPromisedArray,
@@ -17,8 +19,26 @@ import {
 }from 'graphql-relay';
 
 let Schema = (db) => {
+	class Store {}
+	let store = new Store();
 
-	let store = {};
+	let nodeDefs = nodeDefinitions(
+		(globalId) => {
+			let {type} = fromGlobalId(globalId);
+			if (type === 'Store') {
+				return store;
+			}
+			return null;
+		},
+		(obj) => {
+			if (obj instanceof Store) {
+				return storeType;
+			}
+
+			return null;
+		}
+	);
+
 	let storeType = new GraphQLObjectType({
 			name: 'Store',
 			fields: () => ({
@@ -44,7 +64,8 @@ let Schema = (db) => {
 							args
 						)}
 				}
-			})
+			}),
+			interfaces: [nodeDefs.nodeInterface]
 		})
 
 	let linkType = new GraphQLObjectType({
@@ -106,6 +127,7 @@ let Schema = (db) => {
 		query: new GraphQLObjectType({
 			name: 'Query',
 			fields: () => ({
+				node: nodeDefs.nodeField,
 				store: {
 					type: storeType,
 					resolve: () => store

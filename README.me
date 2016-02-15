@@ -62,3 +62,15 @@ In conjunction with query variables: (not working but more or less as illustrate
 
 ```
 The clientMutationId is an identifier for relay to associate the output data coming back from the server with the requested read operation from the mutation.
+
+Additional query to support store search: 
+```javascript
+query Main {
+  node(id:"U3RvcmU6"){
+    id
+  }
+  store{
+    id
+  }
+}
+```
