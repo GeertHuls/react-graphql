@@ -38,6 +38,17 @@ class CreateLinkMutation extends Relay.Mutation {
 			}
 		}]
 	}
+
+	getOptimisticResponse() {
+		return {
+			linkEdge: {
+				node: {
+					title: this.props.title,
+					url: this.props.url
+				}
+			}
+		}	
+	}
 }
 
 export default CreateLinkMutation;

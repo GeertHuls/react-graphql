@@ -8,7 +8,13 @@ class Link extends React.Component {
   	fontSize: '0.7em',
   	marginRight: '0.5em'
   });
-  datelabel = () => moment(this.props.link.createdAt).format('L');
+  datelabel = () => {
+  	let {link, relay} = this.props;
+  	if(relay.hasOptimisticUpdate(link)) {
+  		return 'Saving...';
+  	}
+  	return moment(link.createdAt).format('L');
+  };
   render() {
   	let {link} = this.props;
     return (
