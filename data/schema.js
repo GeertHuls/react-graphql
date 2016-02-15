@@ -25,15 +25,24 @@ let Schema = (db) => {
 				id: globalIdField("Store"),
 				linkConnection: {
 					type: linkConnection.connectionType,
-					args: connectionArgs, //first, last, .... which you can use below:
-					resolve: (_, args) => connectionFromPromisedArray(
-						db.collection("links").find({})
-						.sort({createdAt: -1})
-						.limit(args.first).toArray(),
-						//eg: linkConnection (first: 2) 
-						//then mongo client will limit to 2
-						args
-					)
+					args: { //first, last, .... which you can use below:
+						...connectionArgs,
+						query: { type: GraphQLString }
+					},
+					resolve: (_, args) => {
+						let findParams = {};
+						if (args.query) {
+							findParams.title = new RegExp(args.query, 'i');
+						}
+						return connectionFromPromisedArray(
+							db.collection("links")
+							.find(findParams)
+							.sort({createdAt: -1})
+							.limit(args.first).toArray(),
+							//eg: linkConnection (first: 2) 
+							//then mongo client will limit to 2
+							args
+						)}
 				}
 			})
 		})

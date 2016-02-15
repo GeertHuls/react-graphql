@@ -12,7 +12,7 @@ Use webpack to create bundle.js
 ```javascript
 query{
   store {
-	linkConnection (first:5) {
+	linkConnection (first:5, query:"test") {
       	pageInfo {
           hasNextPage
         }
