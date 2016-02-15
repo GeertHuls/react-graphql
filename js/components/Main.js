@@ -1,10 +1,16 @@
 import React from "react";
 import Relay from "react-relay";
+import {debounce} from 'lodash';
 
 import Link from "./Link";
 import CreateLinkMutation from "../mutations/CreateLinkMutation";
 
 class Main extends React.Component {
+	constructor (props) {
+		super(props);
+
+		this.search = debounce(this.search, 300);
+	}
 	search = (e) => {
 		let query = e.target.value;
 		//when you set a relay variable, relay will try to refetch the query as needed

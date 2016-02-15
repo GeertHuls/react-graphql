@@ -23,6 +23,7 @@
     "graphql-relay": "^0.3.6",
     "jquery": "^2.2.0",
     "kerberos": "0.0.18",
+    "lodash": "^4.3.0",
     "moment": "^2.11.2",
     "mongodb": "^2.1.4",
     "react": "^0.14.6",
